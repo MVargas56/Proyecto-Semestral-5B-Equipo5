@@ -9,6 +9,8 @@ public class EnemyBase : MonoBehaviour
     protected NavMeshAgent enemy;
     protected Rigidbody erb;
     protected int EnemyHealth = 10;
+    public int DamagePlayer = 4;
+    protected PlayerStatus ps;
     public Vector3 velocity;
     
     void Start ()

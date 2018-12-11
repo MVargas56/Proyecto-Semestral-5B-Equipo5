@@ -12,6 +12,7 @@ public class Enemy1 : EnemyBase
     {
         playerObj = GameObject.FindGameObjectWithTag("Player");
         enemy = GetComponent<NavMeshAgent>();
+        ps = GetComponent<PlayerStatus>();
     }
 
     void Update()
@@ -33,11 +34,11 @@ public class Enemy1 : EnemyBase
 
     void FollowPlayer()
     {
+        float distanceToPlayer = Vector3.Distance(transform.position, playerObj.transform.position);
         if (playerObj != null)
         {
             valH = 0;
             valV = 1;
-            float ditsToPlayer = Vector3.Distance(transform.position, playerObj.transform.position);
 
             float currentRotation = transform.rotation.eulerAngles.y * Mathf.Deg2Rad;
 
@@ -54,5 +55,20 @@ public class Enemy1 : EnemyBase
             transform.LookAt(playerObj.transform.position);
             //enemy.destination = playerObj.transform.position;
         }
+        if (distanceToPlayer == 1)
+        {
+            valV = 0;
+            StartCoroutine("DamageJugador");
+        }
+        else {
+            valV = 1;
+            StopAllCoroutines();
+        }
+    }
+
+    IEnumerator DamageJugador () {
+        yield return new WaitForSeconds(1f);
+        ps.playerHealth -= DamagePlayer;
+        Debug.Log("Player Health: " + ps.playerHealth);
     }
 }
